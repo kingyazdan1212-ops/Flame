@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#07070c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="شعله — عادت‌هات رو روشن نگه دار" />
+  <title>شعله | Sholeh</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>" />
+</head>
+<body>
+  <!-- Lock Screen -->
+  <div id="lock-screen" class="lock-screen hidden">
+    <div class="lock-box">
+      <div class="lock-flame">🔥</div>
+      <h2 id="lock-title">قفل شده</h2>
+      <p id="lock-desc">پین خود را وارد کنید</p>
+      <div class="pin-dots" id="pin-dots">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="pin-pad" id="pin-pad">
+        <button data-n="1">1</button><button data-n="2">2</button><button data-n="3">3</button>
+        <button data-n="4">4</button><button data-n="5">5</button><button data-n="6">6</button>
+        <button data-n="7">7</button><button data-n="8">8</button><button data-n="9">9</button>
+        <button data-n="c" class="pin-act">C</button><button data-n="0">0</button><button data-n="ok" class="pin-act">✓</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app">
+    <!-- Ambient -->
+    <div class="ambient"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+
+    <!-- Top Reminder Banner -->
+    <div id="reminder-banner" class="reminder-banner hidden">
+      <div class="reminder-content">
+        <span class="reminder-icon">⏰</span>
+        <span id="reminder-text">عادت‌های امروز هنوز کامل نشده</span>
+      </div>
+      <button id="reminder-close" class="reminder-close">✕</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="brand">
+          <div class="flame-icon">🔥</div>
+          <div>
+            <h1 class="logo">شعله</h1>
+            <p class="tagline" id="tagline">عادت‌هات رو روشن نگه دار</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="settings-btn" class="glass-btn" title="Settings">⚙️</button>
+          <button id="theme-toggle" class="glass-btn">🌙</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-stats">
+      <div class="hero-card">
+        <div class="streak-ring">
+          <svg viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="42"/>
+            <circle class="ring-fill" id="ring-fill" cx="50" cy="50" r="42"/>
+          </svg>
+          <div class="streak-center">
+            <span class="streak-num" id="best-streak">0</span>
+            <span class="streak-label" id="streak-label">روز شعله</span>
+          </div>
+        </div>
+        <p class="motivation" id="motivation-text">امروز روز ساختنشه ✨</p>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat">
+          <span class="mini-val" id="total-habits">0</span>
+          <span class="mini-label" id="label-active">عادت فعال</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-val" id="today-completed">0</span>
+          <span class="mini-label" id="label-today">انجام امروز</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="habits"><span class="tab-icon">⚡</span><span id="tab-habits">عادت‌ها</span></button>
+      <button class="tab" data-tab="fitness"><span class="tab-icon">💪</span><span id="tab-fitness">ورزش</span></button>
+      <button class="tab" data-tab="stats"><span class="tab-icon">📊</span><span id="tab-stats">آمار</span></button>
+    </nav>
+
+    <!-- Habits -->
+    <main id="habits-tab" class="tab-content active">
+      <div class="section-head">
+        <h2 id="title-habits">عادت‌های امروز</h2>
+        <button id="add-habit-btn" class="glow-btn">+ <span id="btn-new">جدید</span></button>
+      </div>
+      <div id="habits-list" class="habits-list"></div>
+      <div id="empty-habits" class="empty-state">
+        <div class="empty-visual">🔥</div>
+        <h3 id="empty-h-title">شعله هنوز روشنه نیست</h3>
+        <p id="empty-h-desc">اولین عادت‌ت رو بساز و زنجیره رو شروع کن</p>
+      </div>
+    </main>
+
+    <!-- Fitness -->
+    <main id="fitness-tab" class="tab-content">
+      <div class="section-head">
+        <h2 id="title-fitness">تمرین‌ها</h2>
+        <button id="add-workout-btn" class="glow-btn">+ <span id="btn-log">ثبت</span></button>
+      </div>
+      <div id="workouts-list" class="workouts-list"></div>
+      <div id="empty-workouts" class="empty-state">
+        <div class="empty-visual">💪</div>
+        <h3 id="empty-w-title">هنوز تمرینی ثبت نشده</h3>
+        <p id="empty-w-desc">اولین ست‌ت رو بزن</p>
+      </div>
+    </main>
+
+    <!-- Stats -->
+    <main id="stats-tab" class="tab-content">
+      <div class="section-head"><h2 id="title-stats">پیشرفت تو</h2></div>
+      <div class="stats-grid">
+        <div class="glass-card">
+          <h3 id="label-week">۷ روز اخیر</h3>
+          <div id="week-chart" class="week-chart"></div>
+        </div>
+        <div class="glass-card">
+          <h3 id="label-top">قوی‌ترین عادت‌ها</h3>
+          <div id="top-habits" class="top-habits"></div>
+        </div>
+        <div class="glass-card summary-card">
+          <div class="summary-item">
+            <span class="sum-val" id="total-completions">0</span>
+            <span class="sum-label" id="label-total-flames">کل شعله‌ها</span>
+          </div>
+          <div class="summary-item">
+            <span class="sum-val" id="total-workouts">0</span>
+            <span class="sum-label" id="label-total-workouts">تمرین ثبت‌شده</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <!-- Habit Modal -->
+  <div id="habit-modal" class="modal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-head">
+        <h3 id="modal-habit-title">عادت جدید</h3>
+        <button class="close-x" id="close-habit-modal">✕</button>
+      </div>
+      <form id="habit-form">
+        <div class="field">
+          <label id="label-name">اسم عادت</label>
+          <input type="text" id="habit-name" required maxlength="40" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label id="label-icon">آیکون</label>
+          <div class="icon-grid" id="icon-picker"></div>
+        </div>
+        <div class="field">
+          <label id="label-color">رنگ شعله</label>
+          <div class="color-grid" id="color-picker"></div>
+        </div>
+        <div class="field">
+          <label id="label-target">هدف روزانه <span class="optional" id="opt-optional">(اختیاری)</span></label>
+          <input type="number" id="habit-target" min="1" max="30" />
+        </div>
+        <button type="submit" class="submit-btn" id="btn-light">روشن کردن شعله 🔥</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Workout Modal -->
+  <div id="workout-modal" class="modal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-head">
+        <h3 id="modal-workout-title">ثبت تمرین</h3>
+        <button class="close-x" id="close-workout-modal">✕</button>
+      </div>
+      <form id="workout-form">
+        <div class="field">
+          <label id="label-wname">اسم تمرین</label>
+          <input type="text" id="workout-name" required maxlength="40" />
+        </div>
+        <div class="field-row">
+          <div class="field"><label id="label-sets">ست</label><input type="number" id="workout-sets" min="1" max="20" /></div>
+          <div class="field"><label id="label-reps">تکرار</label><input type="number" id="workout-reps" min="1" max="100" /></div>
+        </div>
+        <div class="field">
+          <label id="label-duration">مدت (دقیقه)</label>
+          <input type="number" id="workout-duration" min="1" max="300" />
+        </div>
+        <div class="field">
+          <label id="label-notes">یادداشت</label>
+          <textarea id="workout-notes" rows="2"></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="btn-save-w">ثبت تمرین 💪</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal">
+    <div class="modal-sheet settings-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-head">
+        <h3 id="settings-title">تنظیمات</h3>
+        <button class="close-x" id="close-settings">✕</button>
+      </div>
+      <div class="settings-body">
+        <!-- Language -->
+        <div class="setting-group">
+          <label id="set-lang">زبان / Language</label>
+          <select id="lang-select" class="setting-select"></select>
+        </div>
+        <!-- Security -->
+        <div class="setting-group">
+          <label id="set-security">امنیت</label>
+          <div class="setting-row">
+            <span id="set-pin-label">قفل پین</span>
+            <button id="btn-set-pin" class="mini-btn">تنظیم</button>
+          </div>
+          <div class="setting-row">
+            <span id="set-encrypt-label">رمزگذاری داده</span>
+            <label class="switch"><input type="checkbox" id="opt-encrypt" /><span class="slider"></span></label>
+          </div>
+        </div>
+        <!-- Notifications -->
+        <div class="setting-group">
+          <label id="set-notif">یادآوری</label>
+          <div class="setting-row">
+            <span id="set-banner-label">بنر بالای صفحه</span>
+            <label class="switch"><input type="checkbox" id="opt-banner" checked /><span class="slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <span id="set-sound-label">صدا هنگام تکمیل</span>
+            <label class="switch"><input type="checkbox" id="opt-sound" checked /><span class="slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <span id="set-vibrate-label">ویبره</span>
+            <label class="switch"><input type="checkbox" id="opt-vibrate" checked /><span class="slider"></span></label>
+          </div>
+        </div>
+        <!-- Data -->
+        <div class="setting-group">
+          <label id="set-data">داده</label>
+          <div class="setting-actions">
+            <button id="btn-export" class="mini-btn">📤 خروجی</button>
+            <button id="btn-import" class="mini-btn">📥 ورودی</button>
+            <input type="file" id="import-file" accept=".json" hidden />
+            <button id="btn-reset" class="mini-btn danger">🗑️ پاک کردن همه</button>
+          </div>
+        </div>
+        <!-- About -->
+        <div class="setting-group about">
+          <p id="about-text">شعله v2.0 — کاملاً آفلاین و امن</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIN Setup Modal -->
+  <div id="pin-setup-modal" class="modal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-head">
+        <h3 id="pin-setup-title">تنظیم پین</h3>
+        <button class="close-x" id="close-pin-setup">✕</button>
+      </div>
+      <p id="pin-setup-desc" style="color:var(--muted);margin-bottom:16px;font-size:0.9rem">یک پین ۴ رقمی انتخاب کنید</p>
+      <input type="password" id="pin-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" class="pin-input" placeholder="••••" />
+      <button id="btn-save-pin" class="submit-btn" style="margin-top:16px">ذخیره پین</button>
+      <button id="btn-remove-pin" class="mini-btn danger" style="width:100%;margin-top:12px">حذف پین</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

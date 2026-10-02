@@ -1,0 +1,13 @@
+{
+  "name": "شعله — Sholeh",
+  "short_name": "شعله",
+  "description": "Premium offline habit & fitness tracker. 30 languages. Secure.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07070c",
+  "theme_color": "#0a0a0f",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [{"src":"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
